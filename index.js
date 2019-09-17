@@ -197,7 +197,15 @@ module.exports = function (sails) {
       //   _.keys(sails.hooks.orm.datastores),
       //   _.keys(sails.hooks.orm.adapters)
       // );
-      return initialize(sails.hooks.orm, sails, next);
+
+
+      if(sails.hooks.gboxmodels) {
+        sails.once('hook:gboxmodels:inited', function() {
+          initialize(sails.hooks.orm, sails, next);
+        });
+      } else {
+        initialize(sails.hooks.orm, sails, next);
+      }
     },
 
 
